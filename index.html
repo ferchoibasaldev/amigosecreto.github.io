@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amigo Secreto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        input, button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        #listaNombres {
+            list-style: none;
+            padding: 0;
+        }
+        #listaNombres li {
+            background: #fff;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+        }
+        #resultado {
+            font-size: 20px;
+            font-weight: bold;
+            color: #007bff;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Amigo Secreto</h1>
+    <input type="text" id="nombre" placeholder="Ingrese un nombre">
+    <button onclick="agregarNombre()">Añadir</button>
+    <ul id="listaNombres"></ul>
+    <button onclick="sortearAmigo()">Descubrir Amigo Secreto</button>
+    <p id="resultado"></p>
+
+    <script>
+        let nombres = [];
+
+        function agregarNombre() {
+            let input = document.getElementById("nombre");
+            let nombre = input.value.trim();
+
+            // Validaciones
+            if (nombre === "") {
+                alert("⚠️ Ingrese un nombre válido.");
+                return;
+            }
+            if (nombre.length > 20) {
+                alert("⚠️ El nombre no puede superar los 20 caracteres.");
+                return;
+            }
+            if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/.test(nombre)) {
+                alert("⚠️ Solo se permiten letras y espacios.");
+                return;
+            }
+            if (nombres.includes(nombre)) {
+                alert("⚠️ Este nombre ya está en la lista.");
+                return;
+            }
+
+            // Agregar nombre
+            nombres.push(nombre);
+            actualizarLista();
+            input.value = "";
+        }
+
+        function actualizarLista() {
+            let lista = document.getElementById("listaNombres");
+            lista.innerHTML = "";
+            nombres.forEach((nombre) => {
+                let li = document.createElement("li");
+                li.textContent = nombre;
+                lista.appendChild(li);
+            });
+        }
+
+        function sortearAmigo() {
+            if (nombres.length === 0) {
+                alert("⚠️ Agregue al menos un nombre antes de sortear.");
+                return;
+            }
+
+            let indiceAleatorio = Math.floor(Math.random() * nombres.length);
+            let nombreSorteado = nombres[indiceAleatorio];
+
+            document.getElementById("resultado").textContent = "🎉 Tu amigo secreto es: " + nombreSorteado + " 🎉";
+        }
+    </script>
+
+</body>
+</html>
